@@ -33,7 +33,7 @@ const numberStyle = wb.createStyle({
 ws.cell(1, 1, 1, 4, true)
     .string("Countries List")
     .style(titleStyle);
-
+// Sheet Header
 ws.cell(2, 1)
     .string("Name")
     .style(headerStyle);
@@ -53,6 +53,7 @@ console.log("Getting data from..." + URL);
 axios.get(URL)
     .then(response => {
         const countries = response.data;
+
         countries.forEach(country => {
             countriesList.push(country.name.common = {
                 name: country.name.common,
@@ -61,10 +62,13 @@ axios.get(URL)
                 currencies: country.currencies ? Object.keys(country.currencies).toString() : "-"
             });
         });
+
+        // Alphabetical order
         countriesList.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
 
+        // Writing data to spreadsheet
         console.log("Creating the spreadsheet...")
-        // Data to Excel Sheet
+        
         let rowCount = 3;
         countriesList.forEach(country => {
             // Name
